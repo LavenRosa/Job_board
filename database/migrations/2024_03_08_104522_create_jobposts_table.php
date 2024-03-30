@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('jobposts', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('job_position');
+            $table->unsignedBigInteger('jobfunction_id');
+            $table->unsignedBigInteger('joblocation_id');
+            $table->string('company_name');
+            $table->string('company_location');
+            $table->string('company_logo');
+            $table->longText('description');
+            $table->longText('reponsibilities');
+            $table->longText('requirements');
+            $table->string('salary');
+            $table->string('job_type');
+            $table->date('job_created_date')->format('YYYY-MM-DD');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('jobposts');
+    }
+};
