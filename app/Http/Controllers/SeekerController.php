@@ -17,8 +17,13 @@ class SeekerController extends Controller
     public function userregister(Request $request){
         $validate = Validator($request->all(), [
             'name'=>'required|string',
-            'email'=>'required|email',
+            'email'=>'required|email|unique:email',
             'password'=>'required|min:4|confirmed'
+        ],
+        [
+            'name.required' => 'Please filled this field',
+            'email.required' => 'Please filled this field',
+            'password.required' => 'Please filled this field',
         ]);
         if($validate->fails()){
             return redirect()->back()->withErrors($validate)->withInput();
@@ -63,6 +68,11 @@ class SeekerController extends Controller
     }
    public function userlogin(Request $request){
     $user = Seeker::where('email', $request->email)->first();
+    $validate = Validator($request->all(),[
+        'email' => 'required',
+    ],[
+        'email.required' => 'Please filled this field',
+    ]);
     //dd($user);
     if(!empty($user)){
         if(Hash::check($request->password, $user->password)){

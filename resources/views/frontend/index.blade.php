@@ -12,19 +12,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success')}}
+        </div>
+    @endif
     <section class="topnav">
         <div class="container-fluid">
             <div class="row">
                 <ul class="nav nav-pills" style="display: flex; justify-content:space-evenly;">
                     <img src="{{ asset('../img/logo.png') }}" alt="" width="70px" height="70px">
                     <li class="a nav-item">
-                      <a class="nav-link active" href=" {{ route('ShowUserLogin')}}">Login</a>
+                      {{-- <a class="nav-link active" href=" {{ route('ShowUserLogin')}}">Login</a> --}}
+                        @if(session()->has('Auther'))
+                        <a class="nav-link active" href=" {{ route('ShowUserLogin')}}">Login</a>
+                        @else
+                        <a href="javascript:void(0);" onclick="alert('Already login')" class="nav-link active" href=" {{ route('ShowUserLogin')}}">Login</a>
+                        @endif
                     </li>
                     <li class="nav-item">
+                        @if (session()->has('Auther'))
                         <a class="nav-link active" style="margin-left: 15px;" href="{{ route('ShowUserRegister') }}">Register</a>
+                        @else
+                        <a href="javascript:void(0)" onclick="alert('Already Login')" class="nav-link active" style="margin-left: 15px;" href="{{ route('ShowUserRegister') }}">Register</a>
+                        @endif
+                        {{-- <a class="nav-link active" style="margin-left: 15px;" href="{{ route('ShowUserRegister') }}">Register</a> --}}
                     </li>
                     <li class="nav-item">
+                        @if(session()->has('Auther'))
                         <a style="margin-left: 15px; font-size:25px;" href="{{ route('ProfileShow')}}"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+                        @else
+                        <a href="javascript:void(0)" onclick="alert('Please Login to view Profile')" style="margin-left: 15px; font-size:25px;" href="{{ route('ProfileShow')}}"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+                        @endif
                     </li>
                   </ul>
             </div>
@@ -88,7 +107,12 @@
                             <span><b>{{ $job->company_name }}</b></span>
                             <img style="margin-left: 10px; width: 100px; height:100px" src="{{ asset( $job->company_logo )}}" alt="" width="70px" height="70px">
                           </div>
-                          <a href="{{ route('JobDetail', ['jobId' => $job->id]) }}" style="background-color:rgb(74, 176, 239); margin-left:100px; border-color:rgb(74, 176, 239);" class="btn btn-primary">View Details</a>
+                          @if(session()->has('Auther'))
+                            <a href="{{ route('JobDetail', ['jobId' => $job->id]) }}" style="background-color:rgb(74, 176, 239); margin-left:100px; border-color:rgb(74, 176, 239);" class="btn btn-primary">View Details</a>
+                            @else
+                            <a href="javascript:void(0);" onclick="alert('Please login to view the detail');" style="background-color:rgb(74, 176, 239); margin-left:100px; border-color:rgb(74, 176, 239);" class="btn btn-primary">View Details</a>
+                            @endif
+                          {{-- <a href="{{ route('JobDetail', ['jobId' => $job->id]) }}" style="background-color:rgb(74, 176, 239); margin-left:100px; border-color:rgb(74, 176, 239);" class="btn btn-primary">View Details</a> --}}
                         </div>
                     </div>
                 </div>

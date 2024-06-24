@@ -47,12 +47,11 @@ class ApplyJobController extends Controller
             'status' => 1,
             'submitted_date' => '2024/03/09',
         ]);
-        dd($applyjob);
+        //dd($applyjob);
         if($applyjob){
-            return redirect()->route('ShowUserRegister')->with('success', 'Successfully Applied!');
+            return redirect()->route('Index')->with('success', 'Successfully Applied!');
         } else {
             return view('errors.500Page');
         }
-
     }
 }
